@@ -4,7 +4,7 @@ from botocore.exceptions import ClientError
 from utils.import_credentials import aws_credentials
 
 class AWS_SERVICES:
-    def __init__(self, region_name='us-west-2'):
+    def __init__(self, region_name='us-east-1'):
         # Inicializa as credenciais AWS usando a função aws_credentials() que retorna ACCESS_KEY, SECRET_KEY e SESSION_TOKEN.
         self.ACESS_KEY, self.SECRET_KEY, self.SESSION_TOKEN = aws_credentials()
         

@@ -43,4 +43,4 @@ def lambda_handler(event, context):
         'body': {'unique_id' : {unique_filename}, 'presigned_url' : presigned_url}
     }
 
-lambda_handler(None, None)
+print(lambda_handler(None, None))
