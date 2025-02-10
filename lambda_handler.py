@@ -28,19 +28,23 @@ def lambda_handler(event, context):
     # 3 - Inicializar a classe S3BucketClass
     s3_services = S3BucketClass()
 
+    # 4 - Criar uma URL POST presignada para upload de arquivo
+    presigned_url_post = s3_services.create_presigned_post(S3_BUCKET_NAME, download_filename)
+    print(f'[DEBUG] Presigned POST URL {presigned_url_post} gerada com sucesso')
+
     # +- Dps de testar, deve-ser removido (TESTE) -+
-    s3_services.upload_file(bucket=S3_BUCKET_NAME, key=download_filename, file_path='./files/zipped_files.zip')
-    print(f'[DEBUG] Arquivo {download_filename} enviado para o S3')
+    # s3_services.upload_file(bucket=S3_BUCKET_NAME, key=download_filename, file_path='./files/zipped_files.zip')
+    # print(f'[DEBUG] Arquivo {download_filename} enviado para o S3')
     # +- Dps de testar, deve-ser removido (TESTE) -+
 
-    # 4 - Gerar a URL de download temporária
+    # 5 - Gerar a URL de download temporária
     presigned_url = s3_services.generate_presigned_url(S3_BUCKET_NAME, download_filename)
     print(f'[DEBUG] Presigned URL: {presigned_url[:40]}')
 
-    # 5 - Retornar a URL de download temporária
+    # 6 - Retornar a URL de download temporária
     return {
         'statusCode': 200,
-        'body': {'unique_id' : unique_filename, 'presigned_url' : presigned_url}
+        'body': {'unique_id' : unique_filename, 'presigned_url' : presigned_url, 'presigned_post_url' : presigned_url_post}
     }
 
-print(lambda_handler(None, None))
+# print(lambda_handler(None, None))
