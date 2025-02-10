@@ -110,3 +110,32 @@ class S3BucketClass:
        
         except ClientError as e:
             print(f"[DEBUG] Error generating presigned URL: {e}")
+
+
+    def create_presigned_post(self, bucket, object_name,
+                            fields=None, conditions=None, expiration=3600):
+        """
+        Função para gerar uma URL pré-assinada para upload de um arquivo para o bucket S3
+        
+        Args:
+            object_name (str): Nome do arquivo
+            fields (dict): Campos de formulário para incluir na URL
+            conditions (list): Condições de formulário para incluir na URL
+            expiration (int): Tempo de expiração da URL em segundos
+        
+        Returns:
+            dict: Dicionário contendo a URL pré-assinada e os campos de formulário necessários
+        """
+
+        # Generate a presigned S3 POST URL
+        try:
+            response = self.s3_client.generate_presigned_post(bucket,
+                                                        object_name,
+                                                        Fields=fields,
+                                                        Conditions=conditions,
+                                                        ExpiresIn=expiration)
+        except ClientError as e:
+            print(f"[DEBUG] Error generating presigned POST URL: {e}")
+
+        # The response contains the presigned URL and required fields
+        return response
